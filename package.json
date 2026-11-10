@@ -1,0 +1,25 @@
+{
+  "name": "json-renderers-from-instructions",
+  "version": "1.2.1",
+  "description": "Focused table specification builder with configurable rows and cells",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "npx @keshavsoft/build-cli"
+  },
+  "dependencies": {
+    "@keshavsoft/json-to-dom": "^42.1.5",
+    "json-renderers-build-table-options": "^1.7.2",
+    "json-renderers-guard": "^1.5.3",
+    "json-renderers-run-instructions": "^1.2.1",
+    "json-renderers-specs": "^1.4.1",
+    "spec-repo": "^1.5.1"
+  }
+}
