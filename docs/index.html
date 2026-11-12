@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How the HTML table is rendered</title>
+    <style>
+      :root {
+        --bg: #0d1723;
+        --panel: #162533;
+        --panel-alt: #1c2e3f;
+        --line: #2d4054;
+        --text: #edf3f9;
+        --muted: #b8c6d7;
+        --accent: #5aa9ff;
+        --accent-2: #67d5a8;
+        --warn: #ffcc70;
+        --danger: #ff7d7d;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, sans-serif;
+        background: linear-gradient(180deg, #0b1520 0%, #122233 100%);
+        color: var(--text);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1220px;
+        margin: 0 auto;
+        padding: 32px 20px 72px;
+      }
+
+      .hero {
+        background: rgba(22, 37, 51, 0.9);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 28px 28px 18px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 3vw, 3rem);
+        letter-spacing: -0.04em;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(90, 169, 255, 0.12);
+        border: 1px solid rgba(90, 169, 255, 0.5);
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 16px;
+      }
+
+      .lead {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.08rem;
+      }
+
+      section {
+        margin-top: 28px;
+        background: rgba(22, 37, 51, 0.8);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 24px 24px 18px;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-size: clamp(1.3rem, 2vw, 2rem);
+      }
+
+      p, li {
+        color: var(--muted);
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .step {
+        background: var(--panel-alt);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px;
+      }
+
+      .step strong {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: var(--text);
+      }
+
+      .arrow {
+        display: inline-block;
+        margin: 0 8px;
+        color: var(--accent-2);
+        font-weight: 700;
+      }
+
+      pre {
+        margin: 16px 0 0;
+        background: #0a1320;
+        color: #dceaf8;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 16px;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        font-size: 0.9rem;
+      }
+
+      code {
+        font-family: "Cascadia Code", Consolas, monospace;
+      }
+
+      .highlight {
+        color: var(--warn);
+      }
+
+      .callout {
+        border-left: 4px solid var(--accent-2);
+        background: rgba(103, 213, 168, 0.08);
+        padding: 14px 18px;
+        border-radius: 10px;
+        color: var(--text);
+      }
+
+      .grid-two {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 22px;
+      }
+
+      @media (max-width: 760px) {
+        .grid-two {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <div class="eyebrow">Rendering story</div>
+        <h1>How the HTML table on this page is rendered</h1>
+        <p class="lead">
+          This page is not manually written as a giant DOM tree. The repo builds it from a small configuration,
+          transforms that into a JSON DOM specification, and then mounts the live HTML into a target container.
+        </p>
+      </header>
+
+      <section>
+        <h2>1. The page shell is a container and a few action buttons</h2>
+        <p>
+          The sample page in <code>samples/v2/tableWithSearch/index.html</code> provides the visible shell: the
+          navbar, the action buttons, and a single mount node named <code>dom-render-container</code>.
+          That container is the insertion point for the actual table HTML.
+        </p>
+
+        <pre><code>&lt;div id="dom-render-container" class="mt-3"&gt;&lt;/div&gt;
+&lt;button id="clear-body"&gt;Clear Body&lt;/button&gt;
+&lt;button id="show-body"&gt;Show Body&lt;/button&gt;</code></pre>
+      </section>
+
+      <section>
+        <h2>2. Bootstrapping starts in the sample JavaScript</h2>
+        <p>
+          The sample loader in <code>samples/v2/tableWithSearch/index.js</code> imports the JSON contracts for
+          instructions, bindings, and the action registry, then immediately initializes the page.
+        </p>
+
+        <pre><code>window.v52Config = { instructions };
+
+const root = document.querySelector(".v52-root");
+
+const start = () =&gt; {
+  actions.renderInitialTable();
+  initializeInstructionBindings({
+    root,
+    bindings,
+    instructions,
+    actions
+  });
+};</code></pre>
+
+        <div class="flow">
+          <div class="step">
+            <strong>Startup config</strong>
+            <div><code>instructions.json</code> defines the initial render parameters.</div>
+          </div>
+          <div class="step">
+            <strong>Bindings</strong>
+            <div><code>bindings.json</code> maps DOM events to instructions and actions.</div>
+          </div>
+          <div class="step">
+            <strong>Actions</strong>
+            <div><code>actions.js</code> contains the actual page behavior for full body replacement.</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>3. The first render is a single <code>render({ ... })</code> call</h2>
+        <p>
+          The action registry calls the library render function with the table definition, the data array, the column
+          definitions, and the target container ID.
+        </p>
+
+        <pre><code>const renderInitialTable = () =&gt; {
+  const spec = window.v52Config.instructions.startup;
+  render({
+    type: spec.type,
+    data,
+    columns,
+    options: spec.options,
+    targetHtmlId: "dom-render-container",
+    classToApply: spec.classToApply,
+    appendPosition: spec.appendPosition
+  });
+};</code></pre>
+
+        <p>
+          In other words, the repo is not painting HTML by hand. It is giving the renderer a configuration object,
+          and that renderer creates the live table node tree for the browser.
+        </p>
+      </section>
+
+      <section>
+        <h2>4. The renderer turns config into a JSON spec before it touches the DOM</h2>
+        <p>
+          The actual call chain is simple but important: <span class="highlight">guard validation → build spec → mount DOM</span>.
+        </p>
+
+        <div class="grid-two">
+          <div>
+            <pre><code>const render = (config = {}) =&gt; {
+  guardFunc(config);
+
+  const spec = buildTableSpec({
+    definitions,
+    type: config.type,
+    data: config.data,
+    columns: config.columns,
+    options: localOptions,
+    showLog
+  });
+
+  const dom = jsonToDom({
+    jsonSpec: spec,
+    targetHtmlId: config.targetHtmlId,
+    appendPosition: config.appendPosition,
+    showLog
+  });
+
+  return dom;
+};</code></pre>
+          </div>
+          <div>
+            <pre><code>const buildTableSpec = ({
+  definitions,
+  type,
+  data,
+  columns,
+  options
+}) =&gt; {
+  const config = definitions.table[localType];
+  const base = structuredClone(config.base);
+  const registry = { data: { columns, data }, base, ...options };
+
+  runInstructions({ single: config.single, double: config.double, registry });
+  tableOptions({ options, base });
+
+  return base;
+};</code></pre>
+          </div>
+        </div>
+
+        <p>
+          This is the key design idea: the spec-building phase is independent from the browser DOM. The repo creates a
+          reusable JSON description of the table before any live HTML is inserted.
+        </p>
+      </section>
+
+      <section>
+        <h2>5. The table is assembled from declarative blueprints</h2>
+        <p>
+          The library resolves a blueprint like <code>table.simple</code> from the shared definitions package and clones a base skeleton.
+          The skeleton includes the parent wrapper, the table, the <code>colgroup</code>, the <code>thead</code>, and the
+          <code>tbody</code> container.
+        </p>
+
+        <pre><code>{
+  "base": {
+    "tagName": "div",
+    "children": [{
+      "tagName": "table",
+      "children": [
+        { "tagName": "colgroup" },
+        { "tagName": "thead" },
+        { "tagName": "tbody" }
+      ]
+    }]
+  },
+  "single": [ ... ],
+  "double": [ ... ]
+}</code></pre>
+
+        <p>
+          The single-step instructions append columns and headers. The double-step instructions iterate over rows and
+          generate cells. Options like <code>showSerial</code> are applied afterward so the final body, headers, and
+          widths stay aligned.
+        </p>
+      </section>
+
+      <section>
+        <h2>6. The body lifecycle is then driven by instructions, not by raw DOM surgery</h2>
+        <p>
+          The event wiring in <code>samples/v2/tableWithSearch/bindings.json</code> maps key presses and clicks to instruction paths.
+          The generic runtime resolves each instruction and delegates execution to the DOM primitive engine.
+        </p>
+
+        <pre><code>[
+  {
+    "event": "keydown",
+    "selector": "#dom-render-container input",
+    "instructionKey": "search.captureQuery",
+    "action": "captureQuery"
+  },
+  {
+    "event": "click",
+    "selector": "#clear-body",
+    "instructionKey": "clearBody.findLiveBody",
+    "action": "clearBody"
+  }
+]</code></pre>
+
+        <div class="flow">
+          <div class="step">
+            <strong>Clear Body</strong>
+            <div>Finds the live <code>tbody</code> and calls <code>replaceChildren()</code>.</div>
+          </div>
+          <div class="step">
+            <strong>Show Body</strong>
+            <div>Renders into a hidden staging container, extracts the generated <code>tbody</code>, and swaps it in.</div>
+          </div>
+          <div class="step">
+            <strong>Search</strong>
+            <div>Captures the Enter keystroke and displays the query object without yet filtering the data.</div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>7. Final picture</h2>
+        <div class="callout">
+          The visible HTML table shown in the sample is the result of a declarative pipeline: configuration → instruction tree → JSON DOM spec → mounted browser DOM.
+          The repo makes the page dynamic without writing repetitive DOM code for every row and column.
+        </div>
+
+        <pre><code>data + columns + options
+        ↓
+  buildTableSpec()
+        ↓
+  JSON virtual DOM tree
+        ↓
+  jsonToDom()
+        ↓
+  live &lt;table&gt; inside #dom-render-container</code></pre>
+      </section>
+    </main>
+  </body>
+</html>
