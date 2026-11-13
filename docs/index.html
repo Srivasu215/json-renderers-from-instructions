@@ -393,7 +393,7 @@
           <p>Test the architecture live in the browser.</p>
         </div>
 
-        <div class="workbench-grid">
+        <div class="workbench-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
           <div class="tool-card">
             <h3 style="color: var(--accent-2);">Monaco Design Studio</h3>
             <p>
@@ -408,6 +408,14 @@
               Experience the turnkey table renderer in action with serial numbers, column formatting, and dark styling.
             </p>
             <a href="../samples/v3/table/index.html" class="btn btn-primary" target="_blank">View Live Table Demo ↗</a>
+          </div>
+
+          <div class="tool-card">
+            <h3 style="color: var(--warn);">Live v3 Selects Demo</h3>
+            <p>
+              See N &lt;select&gt; controls built from columns.json with options extracted and populated from data.json.
+            </p>
+            <a href="../samples/v3/select/index.html" class="btn btn-primary" style="background: var(--warn); color: #0b1520;" target="_blank">View Selects Demo ↗</a>
           </div>
         </div>
       </section>
