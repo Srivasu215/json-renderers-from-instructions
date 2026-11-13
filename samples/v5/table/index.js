@@ -13,7 +13,8 @@ const start = () => {
             options: { showSerial: true, showSearch: false, showOptions: false },
             targetHtmlId,
             classToApply: "",
-            appendPosition: "replace"
+            appendPosition: "replace",
+            showLog: true
         });
     } catch (error) {
         console.error("V5 Table initialization failed:", error);
