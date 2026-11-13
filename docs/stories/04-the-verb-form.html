@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 4: The Verb FORM | json-renderers-from-instructions</title>
+  <style>
+    :root {
+      --bg: #0d1723;
+      --panel: #162533;
+      --panel-alt: #1c2e3f;
+      --line: #2d4054;
+      --text: #edf3f9;
+      --muted: #b8c6d7;
+      --accent: #5aa9ff;
+      --accent-2: #67d5a8;
+      --warn: #ffcc70;
+      --danger: #ff7d7d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background: linear-gradient(180deg, #0b1520 0%, #122233 100%);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+    nav.story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: rgba(22, 37, 51, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 32px;
+      backdrop-filter: blur(8px);
+    }
+    nav.story-nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    nav.story-nav a:hover { color: #8bc2ff; }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(90, 169, 255, 0.15);
+      border: 1px solid rgba(90, 169, 255, 0.4);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 40px;
+      margin-bottom: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+    }
+    h1 {
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 16px 0 16px;
+      letter-spacing: -0.03em;
+    }
+    p.lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .pipeline-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 32px 0;
+    }
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(90, 169, 255, 0.2);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .step-content h4 {
+      font-size: 1.1rem;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .step-content p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    pre {
+      background: #09131d;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      color: #dceaf8;
+      font-family: "Cascadia Code", Consolas, monospace;
+      margin-top: 10px;
+    }
+    .code-pill {
+      font-family: "Cascadia Code", Consolas, monospace;
+      background: #09121d;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      color: var(--accent-2);
+      font-size: 0.88rem;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    .chapter-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary { background: var(--accent); color: #0b1520; }
+    .btn-primary:hover { background: #8bc2ff; transform: translateY(-2px); }
+    .btn-outline { border: 1px solid var(--line); color: var(--muted); }
+    .btn-outline:hover { color: var(--text); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="story-nav">
+      <a href="03-the-instructions.html">← Chapter 3: The Instructions</a>
+      <span class="badge">Chapter 4 of 8</span>
+      <a href="05-the-renderers.html">Chapter 5: The Renderers →</a>
+    </nav>
+
+    <header class="hero">
+      <span class="badge">Word 3</span>
+      <h1>The Verb "FORM": Shaping the Spec</h1>
+      <p class="lead">
+        What does it mean to "form"? It means taking unstructured, amorphous data and giving it shape, hierarchy, and visual structure according to the recipe.
+      </p>
+    </header>
+
+    <div class="pipeline-flow">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Skeleton Initialization</h4>
+          <p>
+            The engine clones a clean base specification (<span class="code-pill">base.json</span>) from the definition catalog. At this stage, the table is empty—it contains container tags with empty child arrays.
+          </p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Registry Assembly</h4>
+          <p>
+            The runtime creates the central state registry containing raw data, columns, options, and the target base specification:
+          </p>
+          <pre><code>const registry = {
+  data: { columns, data },
+  base,
+  ...options
+};</code></pre>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Instruction Execution (The Shaping Pass)</h4>
+          <p>
+            <span class="code-pill">json-renderers-run-instructions</span> executes the single and double instructions. It iterates over columns and data, resolves path pointers, and populates the tree with headers, rows, and cells.
+          </p>
+        </div>
+      </div>
+
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Feature Option Hydration</h4>
+          <p>
+            Any enabled options (e.g. serial numbers, search input, actions) run through the options transformer, modifying the formed specification to inject serial number headers and cells.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <section class="card">
+      <h3 style="color: var(--accent-2);">The Secret: Zero DOM in the Forming Pass</h3>
+      <p style="color: var(--muted); margin-bottom: 12px;">
+        Notice that throughout steps 1 to 4, <strong>not a single browser DOM node is created</strong>. There is no <span class="code-pill">document</span>, no <span class="code-pill">window</span>, and no layout calculation.
+      </p>
+      <p style="color: var(--muted);">
+        The output is a pure Virtual JSON DOM specification tree: an exact, predictable representation of the UI ready for stamping.
+      </p>
+    </section>
+
+    <footer class="chapter-footer">
+      <a href="03-the-instructions.html" class="btn btn-outline">← Previous Chapter</a>
+      <a href="05-the-renderers.html" class="btn btn-primary">Next: The Renderers →</a>
+    </footer>
+  </div>
+</body>
+</html>
+

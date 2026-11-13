@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 8: The Monaco Studio | json-renderers-from-instructions</title>
+  <style>
+    :root {
+      --bg: #0d1723;
+      --panel: #162533;
+      --panel-alt: #1c2e3f;
+      --line: #2d4054;
+      --text: #edf3f9;
+      --muted: #b8c6d7;
+      --accent: #5aa9ff;
+      --accent-2: #67d5a8;
+      --warn: #ffcc70;
+      --danger: #ff7d7d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background: linear-gradient(180deg, #0b1520 0%, #122233 100%);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+    nav.story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: rgba(22, 37, 51, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 32px;
+      backdrop-filter: blur(8px);
+    }
+    nav.story-nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    nav.story-nav a:hover { color: #8bc2ff; }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(90, 169, 255, 0.15);
+      border: 1px solid rgba(90, 169, 255, 0.4);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 40px;
+      margin-bottom: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+    }
+    h1 {
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 16px 0 16px;
+      letter-spacing: -0.03em;
+    }
+    p.lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .action-box {
+      background: rgba(103, 213, 168, 0.1);
+      border: 1px solid var(--accent-2);
+      border-radius: 14px;
+      padding: 24px;
+      margin: 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .action-text h3 {
+      color: var(--accent-2);
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+    .action-text p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    .code-pill {
+      font-family: "Cascadia Code", Consolas, monospace;
+      background: #09121d;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      color: var(--accent);
+      font-size: 0.88rem;
+    }
+    .chapter-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary { background: var(--accent); color: #0b1520; }
+    .btn-primary:hover { background: #8bc2ff; transform: translateY(-2px); }
+    .btn-success { background: var(--accent-2); color: #0b1520; }
+    .btn-success:hover { background: #8df0c6; transform: translateY(-2px); }
+    .btn-outline { border: 1px solid var(--line); color: var(--muted); }
+    .btn-outline:hover { color: var(--text); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="story-nav">
+      <a href="07-the-pipeline.html">← Chapter 7: The Pipeline</a>
+      <span class="badge">Chapter 8 of 8</span>
+      <a href="../index.html">Back to Master Hub →</a>
+    </nav>
+
+    <header class="hero">
+      <span class="badge">Live Studio</span>
+      <h1>The Monaco Studio: Live Instruction Design</h1>
+      <p class="lead">
+        Because instructions are pure JSON data, you don't need a compiler to alter UI layouts. You can edit them live in your browser and see the results form in real time.
+      </p>
+    </header>
+
+    <div class="action-box">
+      <div class="action-text">
+        <h3>Launch the In-Browser Monaco Workbench</h3>
+        <p>Edit definitions, columns, and instructions interactively inside Monaco Editor.</p>
+      </div>
+      <a href="../monaco/v1/index.html" class="btn btn-success" target="_blank">Open Monaco Studio ↗</a>
+    </div>
+
+    <section class="card">
+      <h3 style="color: var(--accent);">What You Can Do in the Studio</h3>
+      <ul style="margin-left: 20px; color: var(--muted); line-height: 1.8; margin-top: 12px;">
+        <li><strong>Edit Columns Live:</strong> Modify labels, field bindings, or add custom classes directly in <span class="code-pill">columns.json</span>.</li>
+        <li><strong>Tweak 1D Instructions:</strong> Alter how headers are generated in <span class="code-pill">columnSpec.json</span>.</li>
+        <li><strong>Tweak 2D Instructions:</strong> Customize cell formatting and row attributes in <span class="code-pill">rowSpec.json</span>.</li>
+        <li><strong>Instant Visual Feedback:</strong> Watch the table re-form immediately with zero browser refresh or bundling step.</li>
+      </ul>
+    </section>
+
+    <div class="action-box" style="border-color: var(--accent); background: rgba(90, 169, 255, 0.1); margin-top: 24px;">
+      <div class="action-text">
+        <h3 style="color: var(--accent);">Explore the Live Table Sample</h3>
+        <p>See the complete v3 turnkey table running live against sample data.</p>
+      </div>
+      <a href="../../samples/v3/table/index.html" class="btn btn-primary" target="_blank">Open Live Table Sample ↗</a>
+    </div>
+
+    <footer class="chapter-footer">
+      <a href="07-the-pipeline.html" class="btn btn-outline">← Previous Chapter</a>
+      <a href="../index.html" class="btn btn-primary">Return to Exhibition Hub ⌂</a>
+    </footer>
+  </div>
+</body>
+</html>
+

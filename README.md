@@ -1,7 +1,8 @@
 # json-renderers-from-instructions
 
-> **Turnkey Declarative Table Renderer powered by Instruction-Driven Architecture.**  
-> Transforms columns and row datasets into a pure Virtual JSON DOM specification and mounts it into the browser DOM in a single atomic pass.
+> **"JSON instructions FORM renderers."**  
+> Inverted to name the package: **`json-renderers-from-instructions`**.  
+> Transforms columns and datasets into a pure Virtual JSON DOM specification via declarative JSON instructions, mounted into the browser DOM in a single atomic pass.
 
 [![npm version](https://img.shields.io/npm/v/json-renderers-from-instructions.svg?color=cb3837&logo=npm)](https://www.npmjs.com/package/json-renderers-from-instructions)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -9,16 +10,30 @@
 
 ---
 
-## 📖 The Story: Why This Exists
+## 📖 The Story: "JSON Instructions FORM Renderers"
 
-Building dynamic HTML `<table>` elements in web applications is traditionally full of friction and bugs:
+Behind this project is a single, unmistakable architectural truth:
 
-1. **Imperative DOM Spaghetti**: Codebases drown in nested `document.createElement("td")`, `setAttribute`, and procedural `appendChild` loops.
-2. **Coupled Multi-Region Coordination**: Modifying a single column forces manual coordination across four separate regions: `<colgroup>` widths, `<thead>` headers, `<tbody>` data cells, and `<tfoot>` summaries.
-3. **Fragile Customization**: Changing a column layout or adding action controls requires rewriting procedural loops.
-4. **Untestable Formatting**: Because rendering is tightly coupled to the browser DOM, unit tests require heavy browser runners or simulated JSDOM environments.
+$$\mathbf{JSON\ instructions} \quad\xrightarrow{\quad\mathbf{FORM}\quad}\quad \mathbf{renderers}$$
 
-### The Paradigm Shift: Declarative Instruction-Driven Rendering
+* **Active Voice**: *"JSON instructions **FORM** renderers."* (What the engine does: takes JSON instructions to form UI specifications).
+* **Passive Voice**: *"JSON renderers [built] **FROM** instructions."* (The package name: `json-renderers-from-instructions`).
+
+### 📚 The 8-Chapter Interactive Story Documentation
+Visit the **[Exhibition Hub](docs/index.html)** or dive directly into individual chapters:
+
+1. **[Chapter 1: The Core Sentence](docs/stories/01-the-sentence.html)** — Active vs. Passive: why "JSON instructions FORM renderers" is the whole story.
+2. **[Chapter 2: Why JSON?](docs/stories/02-why-json.html)** — Why JSON as the single source of truth over JSX or templates.
+3. **[Chapter 3: The Instructions](docs/stories/03-the-instructions.html)** — Recipes as data: 1D Single instructions and 2D Double matrix instructions.
+4. **[Chapter 4: The Verb FORM](docs/stories/04-the-verb-form.html)** — How the engine shapes formless data into a Virtual DOM specification tree.
+5. **[Chapter 5: The Renderers](docs/stories/05-the-renderers.html)** — Bringing the specification to life via `@keshavsoft/json-to-dom`.
+6. **[Chapter 6: The Table Benchmark](docs/stories/06-the-table-benchmark.html)** — Why the table came first: the 4-zone stress test proving the architecture.
+7. **[Chapter 7: The Complete Pipeline](docs/stories/07-the-pipeline.html)** — How the 5 micro-libraries collaborate cleanly with single responsibility.
+8. **[Chapter 8: The Monaco Studio](docs/stories/08-the-monaco-studio.html)** — Live in-browser instruction engineering with the Monaco Studio.
+
+---
+
+## 🛠️ The Paradigm Shift: Declarative Instruction-Driven Rendering
 
 `json-renderers-from-instructions` solves this by inverting the entire flow:
 

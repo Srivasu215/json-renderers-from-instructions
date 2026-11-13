@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 6: The Table Benchmark | json-renderers-from-instructions</title>
+  <style>
+    :root {
+      --bg: #0d1723;
+      --panel: #162533;
+      --panel-alt: #1c2e3f;
+      --line: #2d4054;
+      --text: #edf3f9;
+      --muted: #b8c6d7;
+      --accent: #5aa9ff;
+      --accent-2: #67d5a8;
+      --warn: #ffcc70;
+      --danger: #ff7d7d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background: linear-gradient(180deg, #0b1520 0%, #122233 100%);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+    nav.story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: rgba(22, 37, 51, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 32px;
+      backdrop-filter: blur(8px);
+    }
+    nav.story-nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    nav.story-nav a:hover { color: #8bc2ff; }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(90, 169, 255, 0.15);
+      border: 1px solid rgba(90, 169, 255, 0.4);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 40px;
+      margin-bottom: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+    }
+    h1 {
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 16px 0 16px;
+      letter-spacing: -0.03em;
+    }
+    p.lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .challenge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+    .zone-box {
+      background: var(--panel-alt);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .zone-box h4 {
+      font-size: 1.05rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+    }
+    .zone-box p {
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    .code-pill {
+      font-family: "Cascadia Code", Consolas, monospace;
+      background: #09121d;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      color: var(--accent-2);
+      font-size: 0.88rem;
+    }
+    .chapter-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary { background: var(--accent); color: #0b1520; }
+    .btn-primary:hover { background: #8bc2ff; transform: translateY(-2px); }
+    .btn-outline { border: 1px solid var(--line); color: var(--muted); }
+    .btn-outline:hover { color: var(--text); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="story-nav">
+      <a href="05-the-renderers.html">← Chapter 5: The Renderers</a>
+      <span class="badge">Chapter 6 of 8</span>
+      <a href="07-the-pipeline.html">Chapter 7: The Pipeline →</a>
+    </nav>
+
+    <header class="hero">
+      <span class="badge">The Benchmark</span>
+      <h1>Why the Table Came First</h1>
+      <p class="lead">
+        This repository is not merely an HTML table generator. The table was chosen as the <strong>supreme stress test</strong>. Solving the table proves that instruction-driven rendering works for anything.
+      </p>
+    </header>
+
+    <div class="card">
+      <h3 style="color: var(--warn);">The 4-Zone Coordination Challenge</h3>
+      <p style="color: var(--muted); margin-bottom: 20px;">
+        Unlike simple containers (<span class="code-pill">&lt;div&gt;</span>, <span class="code-pill">&lt;ul&gt;</span>), an HTML table is the most notoriously coupled component in the HTML standard. It demands simultaneous coordination across four independent regions:
+      </p>
+
+      <div class="challenge-grid">
+        <div class="zone-box">
+          <h4>1. &lt;colgroup&gt;</h4>
+          <p>Defines width constraints and column-level styles across the entire grid.</p>
+        </div>
+        <div class="zone-box">
+          <h4>2. &lt;thead&gt;</h4>
+          <p>1D array of header cells with sort triggers and label text.</p>
+        </div>
+        <div class="zone-box">
+          <h4>3. &lt;tbody&gt;</h4>
+          <p>2D matrix of data rows, where each row must match column field positions.</p>
+        </div>
+        <div class="zone-box">
+          <h4>4. &lt;tfoot&gt;</h4>
+          <p>Summary aggregations, totals, or pagination controls spanning columns.</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="card">
+      <h3 style="color: var(--accent-2);">The Serial Number Proof</h3>
+      <p style="color: var(--muted); margin-bottom: 12px;">
+        Consider a simple requirement: <em>"Add a serial number column (<span class="code-pill">#</span>) to the table."</em>
+      </p>
+      <p style="color: var(--muted); margin-bottom: 12px;">
+        In imperative code, this requires:
+      </p>
+      <ul style="margin-left: 20px; color: var(--muted); line-height: 1.8;">
+        <li>Prepending a <span class="code-pill">&lt;col&gt;</span> to the <span class="code-pill">&lt;colgroup&gt;</span>.</li>
+        <li>Prepending a <span class="code-pill">&lt;th&gt;#&lt;/th&gt;</span> to the <span class="code-pill">&lt;thead&gt;</span>.</li>
+        <li>Iterating through every single row in <span class="code-pill">&lt;tbody&gt;</span> and prepending a new <span class="code-pill">&lt;td&gt;1&lt;/td&gt;</span>, <span class="code-pill">&lt;td&gt;2&lt;/td&gt;</span>...</li>
+      </ul>
+      <p style="color: var(--muted); margin-top: 14px;">
+        In our instruction architecture, this is handled purely by the options transformer: it simply updates the specification tree in memory before the renderer stamps it. <strong>Zero DOM reflows, zero imperative loops.</strong>
+      </p>
+    </section>
+
+    <footer class="chapter-footer">
+      <a href="05-the-renderers.html" class="btn btn-outline">← Previous Chapter</a>
+      <a href="07-the-pipeline.html" class="btn btn-primary">Next: The Pipeline →</a>
+    </footer>
+  </div>
+</body>
+</html>
+

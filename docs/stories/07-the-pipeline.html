@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chapter 7: The Ecosystem Pipeline | json-renderers-from-instructions</title>
+  <style>
+    :root {
+      --bg: #0d1723;
+      --panel: #162533;
+      --panel-alt: #1c2e3f;
+      --line: #2d4054;
+      --text: #edf3f9;
+      --muted: #b8c6d7;
+      --accent: #5aa9ff;
+      --accent-2: #67d5a8;
+      --warn: #ffcc70;
+      --danger: #ff7d7d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background: linear-gradient(180deg, #0b1520 0%, #122233 100%);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+    }
+    nav.story-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: rgba(22, 37, 51, 0.9);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 32px;
+      backdrop-filter: blur(8px);
+    }
+    nav.story-nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    nav.story-nav a:hover { color: #8bc2ff; }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      background: rgba(90, 169, 255, 0.15);
+      border: 1px solid rgba(90, 169, 255, 0.4);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .hero {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 40px;
+      margin-bottom: 32px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+    }
+    h1 {
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 16px 0 16px;
+      letter-spacing: -0.03em;
+    }
+    p.lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .flow-diagram {
+      background: #09131d;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      margin: 28px 0;
+    }
+    .flow-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 14px 18px;
+      background: var(--panel-alt);
+      border-radius: 10px;
+      border: 1px solid var(--line);
+    }
+    .flow-row:last-child { margin-bottom: 0; }
+    .lib-name {
+      font-family: "Cascadia Code", Consolas, monospace;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--accent);
+    }
+    .lib-role {
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: right;
+    }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 24px;
+    }
+    .code-pill {
+      font-family: "Cascadia Code", Consolas, monospace;
+      background: #09121d;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      color: var(--accent-2);
+      font-size: 0.88rem;
+    }
+    .chapter-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary { background: var(--accent); color: #0b1520; }
+    .btn-primary:hover { background: #8bc2ff; transform: translateY(-2px); }
+    .btn-outline { border: 1px solid var(--line); color: var(--muted); }
+    .btn-outline:hover { color: var(--text); border-color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="story-nav">
+      <a href="06-the-table-benchmark.html">← Chapter 6: The Table Benchmark</a>
+      <span class="badge">Chapter 7 of 8</span>
+      <a href="08-the-monaco-studio.html">Chapter 8: The Monaco Studio →</a>
+    </nav>
+
+    <header class="hero">
+      <span class="badge">The Ecosystem</span>
+      <h1>The Complete Pipeline</h1>
+      <p class="lead">
+        No single library should try to do everything. Discover how the KeshavSoft ecosystem organizes data, recipes, computation, and rendering into clean, isolated layers.
+      </p>
+    </header>
+
+    <div class="flow-diagram">
+      <div class="flow-row">
+        <span class="lib-name">1. spec-repo</span>
+        <span class="lib-role">The Catalog: stores base templates and instruction JSON files</span>
+      </div>
+      <div class="flow-row">
+        <span class="lib-name">2. json-renderers-run-instructions</span>
+        <span class="lib-role">The Engine: interprets 1D single & 2D double instructions</span>
+      </div>
+      <div class="flow-row">
+        <span class="lib-name">3. json-renderers-build-table-options</span>
+        <span class="lib-role">The Transformer: injects options (serials, search, actions)</span>
+      </div>
+      <div class="flow-row">
+        <span class="lib-name">4. json-renderers-from-instructions</span>
+        <span class="lib-role">The Orchestrator: coordinates validation, build, and mount passes</span>
+      </div>
+      <div class="flow-row">
+        <span class="lib-name">5. @keshavsoft/json-to-dom</span>
+        <span class="lib-role">The Craftsman: stamps the spec into live browser DOM elements</span>
+      </div>
+    </div>
+
+    <section class="card">
+      <h3 style="color: var(--accent-2);">Single Responsibility in Practice</h3>
+      <p style="color: var(--muted); margin-bottom: 12px;">
+        Each layer operates with zero unnecessary dependencies:
+      </p>
+      <ul style="margin-left: 20px; color: var(--muted); line-height: 1.8;">
+        <li><span class="code-pill">spec-repo</span> knows nothing about JavaScript—it is pure JSON definitions.</li>
+        <li><span class="code-pill">json-renderers-run-instructions</span> knows nothing about the browser DOM—it is pure functional data transformation.</li>
+        <li><span class="code-pill">@keshavsoft/json-to-dom</span> knows nothing about tables or data schemas—it simply creates DOM nodes from any valid JSON spec tree.</li>
+      </ul>
+    </section>
+
+    <footer class="chapter-footer">
+      <a href="06-the-table-benchmark.html" class="btn btn-outline">← Previous Chapter</a>
+      <a href="08-the-monaco-studio.html" class="btn btn-primary">Next: The Monaco Studio →</a>
+    </footer>
+  </div>
+</body>
+</html>
+
