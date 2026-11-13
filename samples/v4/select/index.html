@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>V3 — Selects from Columns & Data | json-renderers-from-instructions</title>
+    <title>V4 — Selects from Columns & Data | json-renderers-from-instructions</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
@@ -28,20 +28,6 @@
             font-family: monospace;
             font-weight: 600;
         }
-        .card {
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.08) !important;
-        }
-        .status-badge {
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
     </style>
 </head>
 <body>
@@ -49,21 +35,22 @@
         <!-- Hero Banner -->
         <div class="hero-banner">
             <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
-                <span class="badge bg-primary px-3 py-2 status-badge">
-                    <i class="bi bi-diagram-3 me-1"></i> Multi-Select Generator
+                <span class="badge bg-primary px-3 py-2">
+                    <i class="bi bi-diagram-3 me-1"></i> Generic Instruction Engine
                 </span>
-                <span class="text-secondary small">samples / v3 / select</span>
+                <span class="text-secondary small">samples / v4 / select</span>
             </div>
-            <h1 class="h2 fw-bold mb-2">HTML &lt;select&gt; Controls Built from Columns & Data</h1>
+            <h1 class="h2 fw-bold mb-2">HTML &lt;select&gt; Controls Built Directly from Instructions</h1>
             <p class="text-light-50 mb-3" style="color: #b8c6d7;">
-                Instead of building a table, the exact same instruction pipeline generates 
-                <strong class="text-white">N &lt;select&gt; elements</strong> (one per entry in <span class="code-pill">columns.json</span>), 
-                and populates each dropdown with options extracted from <span class="code-pill">data.json</span>.
+                Rendered with the exact same 1-statement consumption as table:
+                <strong class="text-white">N &lt;select&gt; elements</strong> dynamically generated from 
+                <span class="code-pill">columns.json</span> and <span class="code-pill">data.json</span> via 
+                <span class="code-pill">definitions.select</span>.
             </p>
             <div class="d-flex gap-3 flex-wrap small" style="color: #67d5a8;">
-                <div><i class="bi bi-check2-circle me-1"></i> Columns Input: <span id="cols-count" class="fw-bold text-white">3</span> selects</div>
-                <div><i class="bi bi-check2-circle me-1"></i> Data Source: <span id="rows-count" class="fw-bold text-white">5</span> records</div>
-                <div><i class="bi bi-check2-circle me-1"></i> Engine: <span class="text-white fw-bold">Pure Virtual JSON DOM</span></div>
+                <div><i class="bi bi-check2-circle me-1"></i> Architecture: <span class="fw-bold text-white">Dynamic Dispatcher (V4)</span></div>
+                <div><i class="bi bi-check2-circle me-1"></i> Consumer Code: <span class="fw-bold text-white">1 Statement</span></div>
+                <div><i class="bi bi-check2-circle me-1"></i> Placement: <span class="text-white fw-bold">Direct to DOM</span></div>
             </div>
         </div>
 
@@ -76,29 +63,15 @@
             </div>
         </div>
 
-        <!-- Live Selection Feedback Panel -->
-        <div class="card border-0 shadow-sm bg-white p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold mb-0 text-dark">
-                    <i class="bi bi-sliders me-2 text-primary"></i> Live Selection State
-                </h5>
-                <span class="badge bg-light text-dark border">Reactive Feedback</span>
-            </div>
-            <div id="selection-results" class="p-3 bg-light rounded font-monospace small text-muted">
-                Change any dropdown above to see live reactive state...
-            </div>
-        </div>
-
-        <!-- Footer -->
+        <!-- Links -->
         <div class="mt-4 text-center text-muted small">
-            <a href="../table/index.html" class="text-decoration-none me-3">← Switch to Table Sample</a>
+            <a href="../table/index.html" class="text-decoration-none me-3">← Switch to V4 Table Sample</a>
             <a href="../../../docs/index.html" class="text-decoration-none">Return to Documentation Hub ⌂</a>
         </div>
     </main>
 
     <!-- Scripts -->
-    <script type="module" src="../../../docs/dist/v3/min.js"></script>
+    <script type="module" src="../../../docs/dist/v4/min.js"></script>
     <script type="module" src="./index.js"></script>
 </body>
 </html>
-

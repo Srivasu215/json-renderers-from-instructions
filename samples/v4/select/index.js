@@ -1,34 +1,30 @@
-import render from "../../../node_modules/json-renderers-specs/docs/dist/v4/min.js";
-import { buildSpecElement } from "https://keshavsoft.github.io/json-to-tag/dist/v9/min.js";
 import columns from "./common/columns.json" with { type: "json" };
 import data from "./common/data.json" with { type: "json" };
 
-const container = document.getElementById("dom-render-container");
+const targetHtmlId = "dom-render-container";
 
 const start = () => {
     try {
-        // Pure consumption: Zero custom data loops, zero option mappers.
-        // The ecosystem renderer builds N <select> controls (one per column)
-        // with options populated directly from data.json.
-        const spec = render({
+        // Pure consumption: 1 call builds N selects and mounts directly to the DOM!
+        window.ks.jsonRenderers.fromInstructions.render({
             type: "select",
             data,
             columns,
-            options: { allColumns: true }
+            options: { allColumns: true },
+            targetHtmlId,
+            appendPosition: "replace",
+            classToApply: ""
         });
 
-        const dom = buildSpecElement(spec);
-        const elements = Array.isArray(dom) ? dom : [dom];
-
-        elements.forEach(selectEl => {
-            selectEl.className = "form-select shadow-sm mb-3";
-        });
-
-        container.replaceChildren(...elements);
+        const selects = document.querySelectorAll(`#${targetHtmlId} select`);
+        selects.forEach(s => s.classList.add("form-select", "shadow-sm", "mb-3"));
 
     } catch (error) {
-        console.error("Selects rendering failed:", error);
-        container.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+        console.error("V4 Select initialization failed:", error);
+        const container = document.getElementById(targetHtmlId);
+        if (container) {
+            container.innerHTML = `<div class="alert alert-danger">${error.message}</div>`;
+        }
     }
 };
 
