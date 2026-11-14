@@ -23,6 +23,8 @@ const buildSpec = ({
         ...options
     };
 
+    if (showLog) console.log("[v5 from-instruction:", registry, config);
+
     runInstructions({
         single: config.single || [],
         double: config.double || [],

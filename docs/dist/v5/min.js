@@ -1359,10 +1359,13 @@ var ve = (e, t) => e.map((e) => ({
 		});
 	});
 }, Ae = ({ single: e = [], double: t = [], registry: n = {}, showLog: r = !1 } = {}) => {
-	if (!Array.isArray(e)) throw TypeError("single instructions must be an array");
+	if (r && console.log("runInstructions : ", e, t), !Array.isArray(e)) throw TypeError("single instructions must be an array");
 	if (!Array.isArray(t)) throw TypeError("double instructions must be an array");
 	if (!n || typeof n != "object" || Array.isArray(n)) throw TypeError("registry must be an object");
-	return e.length > 0 && Ee(e, n, r), t.length > 0 && ke(t, n), n;
+	return e.length > 0 && Ee(e, n, r), t.length > 0 && ke({
+		instructions: t,
+		registry: n
+	}), n;
 }, Q = ({ definitions: e, spec: t, type: n = "table.simple", data: r = [], columns: i = [], options: a = {}, showLog: o = !1 } = {}) => {
 	let s = n.split("."), c = e[s[0]][s[1]], l = structuredClone(c.base), u = {
 		data: {
@@ -1373,7 +1376,7 @@ var ve = (e, t) => e.map((e) => ({
 		spec: t,
 		...a
 	};
-	return Ae({
+	return o && console.log("[v5 from-instruction:", u, c), Ae({
 		single: c.single || [],
 		double: c.double || [],
 		registry: u,
