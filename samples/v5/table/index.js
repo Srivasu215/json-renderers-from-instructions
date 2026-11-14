@@ -7,7 +7,7 @@ const start = () => {
     try {
         // Pure 1-statement consumption via V5 engine
         window.ks.jsonRenderers.fromInstructions.render({
-            type: "table.headerOnly",
+            type: "table.simple",
             data,
             columns,
             options: { showSerial: true, showSearch: false, showOptions: false },

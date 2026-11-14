@@ -1,5 +1,5 @@
 import runInstructions from "json-renderers-run-instructions";
-// import tableOptions from "json-renderers-build-table-options";
+import tableOptions from "json-renderers-build-table-options";
 import { definitions } from "spec-repo";
 
 const buildSpec = ({
@@ -8,7 +8,7 @@ const buildSpec = ({
     type = "table.simple",
     data = [],
     columns = [],
-    options = {},
+    options,
     showLog = false
 } = {}) => {
     const localTypeSplit = type.split(".");
@@ -19,8 +19,7 @@ const buildSpec = ({
     const registry = {
         data: { columns, data },
         base,
-        spec,
-        ...options
+        spec
     };
 
     if (showLog) console.log("[v5 from-instruction:", registry, config);
@@ -32,9 +31,9 @@ const buildSpec = ({
         showLog
     });
 
-    // if (category === "table") {
-    //     tableOptions({ options, base });
-    // }
+    if (options) {
+        tableOptions({ options, base });
+    };
 
     return base;
 };
